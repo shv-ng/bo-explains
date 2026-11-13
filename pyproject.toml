@@ -1,0 +1,46 @@
+[project]
+name = "yt"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "av<19",
+    "faster-whisper>=1.2.1",
+    "moviepy==1.0.3",
+]
+
+[project.optional-dependencies]
+cpu = [
+    "chattts",
+    "torch",
+    "torchaudio",
+]
+cuda = [
+    "chattts",
+    "torch",
+    "torchaudio",
+]
+
+[tool.uv]
+conflicts = [
+    [{ extra = "cpu" }, { extra = "cuda" }],
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"          # change to cu130 if your driver prefers it
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu128", extra = "cuda" },
+]
+torchaudio = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu128", extra = "cuda" },
+]

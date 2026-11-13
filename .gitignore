@@ -1,0 +1,16 @@
+node_modules
+.env
+.venv
+__pycache__
+*.pyc
+# heavy model weights / caches
+*/asset/
+*.safetensors
+*.log
+imagine-out.jpg
+
+raw/
+out/
+img/
+voice/
+

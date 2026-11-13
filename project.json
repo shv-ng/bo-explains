@@ -1,0 +1,102 @@
+{
+  "name": "why-india-drives-left",
+  "narration": "Every time you drive on the left in India, you are following a rule made in 1835. Not by Indians. By the British. Here is how it happened. For thousands of years, most people rode horses on the left. Your sword arm stayed free on the right. Then Napoleon came. He conquered Europe and forced everyone to drive on the RIGHT -- as a show of power. Countries that beat him kept the left. Britain kept the left. And everywhere Britain went... the left came too. India, Australia, Pakistan, Bangladesh -- left side, all of them. Then 1947 arrived. Independence. We rewrote our laws. Our leaders. Our flag. But the road? The road stayed the same. Today, 75 countries still drive on the left. Most of them once flew the British flag. Every time you drive on the left in India -- that is not a traffic rule. That is history.",
+  "caption_text": "Every time you drive on the left in India, you follow a rule made in 1835. Not by Indians. By the British. For thousands of years, most people rode horses on the left — sword arm free on the right. Then Napoleon conquered Europe and forced everyone to drive on the right, as a show of power. Countries that resisted him kept the left. Britain kept the left. And everywhere Britain went, the left came too. India, Australia, Pakistan, Bangladesh — all left. Then 1947 came. Independence. New laws. New flag. But the road stayed the same. Today, 75 countries drive on the left. Most once flew the British flag. Every time you drive on the left in India — that is not a traffic rule. That is history.",
+  "shots": [
+    {
+      "phrase": "Every time you drive on the left in India,",
+      "scene": "Wide street scene — 3 stick figures on bicycles and a car, all moving on the left side of a road; coconut trees and a chai stall in background"
+    },
+    {
+      "phrase": "you are following a rule made in 1835.",
+      "scene": "One stick figure in colonial officer uniform holds a large scroll labeled '1835'; two Indian figures in dhotis stand beside watching"
+    },
+    {
+      "phrase": "Not by Indians. By the British.",
+      "scene": "The colonial officer figure plants a flag on the scroll; Indian figures step back; Union Jack drawn small on the flag"
+    },
+    {
+      "phrase": "Here is how it happened.",
+      "scene": "Wide shot: a simple dirt road stretches into distance; one lone stick figure on horseback pauses at a fork in the road"
+    },
+    {
+      "phrase": "For thousands of years, most people rode horses on the left.",
+      "scene": "3 stick figures on horseback moving left along a road; each holds a sword in their right hand, raised slightly"
+    },
+    {
+      "phrase": "Your sword arm stayed free on the right.",
+      "scene": "Two mounted stick figures face each other on opposite sides of the road; each right arm is extended with a sword, left hands on reins"
+    },
+    {
+      "phrase": "Then Napoleon came.",
+      "scene": "Single stick figure in bicorne hat strides onto the road from the left side of frame; other figures scatter to either side"
+    },
+    {
+      "phrase": "He conquered Europe and forced everyone to drive on the RIGHT --",
+      "scene": "Napoleon figure points firmly to the right side of the road; 4 stick figures reluctantly move from left lane to right lane"
+    },
+    {
+      "phrase": "as a show of power.",
+      "scene": "Napoleon figure stands tall in center of road, arms crossed; stick figures on the right side of road behind him, heads bowed"
+    },
+    {
+      "phrase": "Countries that beat him kept the left.",
+      "scene": "Two stick figures in British military coats stand defiantly on the LEFT side of the road; Napoleon figure is far right, diminished"
+    },
+    {
+      "phrase": "Britain kept the left.",
+      "scene": "Wide shot of a British colonial road scene — stick figures in top hats walking left; a signpost reads 'KEEP LEFT'"
+    },
+    {
+      "phrase": "And everywhere Britain went... the left came too.",
+      "scene": "A stick figure in colonial uniform walks across a world map outline; dotted lines trail behind him marking left-side roads"
+    },
+    {
+      "phrase": "India, Australia, Pakistan, Bangladesh -- left side, all of them.",
+      "scene": "Four separate small road vignettes side by side — each shows stick figures driving on the left; labels beneath each"
+    },
+    {
+      "phrase": "Then 1947 arrived. Independence.",
+      "scene": "Wide shot of a street celebration — 4 Indian stick figures in kurtas and sarees raising a tricolour flag; crowd cheering"
+    },
+    {
+      "phrase": "We rewrote our laws. Our leaders. Our flag.",
+      "scene": "One stick figure tears up a scroll labeled 'British Law'; another raises a new scroll; Ashoka Chakra drawn on a flag in background"
+    },
+    {
+      "phrase": "But the road? The road stayed the same.",
+      "scene": "Wide road scene — same left-side traffic as shot 1; stick figures driving calmly; nothing has changed on the road"
+    },
+    {
+      "phrase": "Today, 75 countries still drive on the left.",
+      "scene": "Simple world map outline — 75 small dots marked on it; stick figure narrator stands beside it pointing"
+    },
+    {
+      "phrase": "Most of them once flew the British flag.",
+      "scene": "The same map — small Union Jack icons appear over the dots; stick figure steps back, arms open"
+    },
+    {
+      "phrase": "Every time you drive on the left in India --",
+      "scene": "Wide street scene — same as shot 1: 3 stick figures on bicycles and a car moving on the left; chai stall and coconut trees in background"
+    },
+    {
+      "phrase": "that is not a traffic rule. That is history.",
+      "scene": "Single stick figure on a bicycle on the left lane, moving slowly; road stretches into distance; sky is wide and open"
+    }
+  ],
+  "style": {
+    "clothing": "Mixed era — Indian figures in kurta/dhoti/saree throughout; colonial British figures in long coats and top hats or military uniform; Napoleon in bicorne hat and military coat",
+    "background": "Indian street with coconut trees, a chai stall, and simple buildings for opening and closing shots; plain road for historical middle shots; world map outline for shots 17–18",
+    "sky": "Warm golden-hour sky for Indian street scenes; flat grey-white sky for historical European shots; open blue sky for final shots"
+  },
+  "voice": {
+    "voice_name": "Charon",
+    "style": "deep male narrator, calm, unhurried, contemplative, Indian English cadence, English only",
+    "target_duration": 53,
+    "model": "gemini-3.8-flash-tts"
+  },
+  "image_model": "gemini-3.8-flash-low",
+  "fps": 30,
+  "loop_last_shot": true,
+  "caption_group_size": 3
+}

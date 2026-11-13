@@ -1,0 +1,102 @@
+[
+  {
+    "image": "shots_001.jpg",
+    "start": 0.0,
+    "end": 4.152
+  },
+  {
+    "image": "shots_002.jpg",
+    "start": 4.152,
+    "end": 7.843
+  },
+  {
+    "image": "shots_003.jpg",
+    "start": 7.843,
+    "end": 10.611
+  },
+  {
+    "image": "shots_004.jpg",
+    "start": 10.611,
+    "end": 12.918
+  },
+  {
+    "image": "shots_005.jpg",
+    "start": 12.918,
+    "end": 17.993
+  },
+  {
+    "image": "shots_006.jpg",
+    "start": 17.993,
+    "end": 21.684
+  },
+  {
+    "image": "shots_007.jpg",
+    "start": 21.684,
+    "end": 23.068
+  },
+  {
+    "image": "shots_008.jpg",
+    "start": 23.068,
+    "end": 28.142
+  },
+  {
+    "image": "shots_009.jpg",
+    "start": 28.142,
+    "end": 30.449
+  },
+  {
+    "image": "shots_010.jpg",
+    "start": 30.449,
+    "end": 33.679
+  },
+  {
+    "image": "shots_011.jpg",
+    "start": 33.679,
+    "end": 35.524
+  },
+  {
+    "image": "shots_012.jpg",
+    "start": 35.524,
+    "end": 39.215
+  },
+  {
+    "image": "shots_013.jpg",
+    "start": 39.215,
+    "end": 43.367
+  },
+  {
+    "image": "shots_014.jpg",
+    "start": 43.367,
+    "end": 45.212
+  },
+  {
+    "image": "shots_015.jpg",
+    "start": 45.212,
+    "end": 48.903
+  },
+  {
+    "image": "shots_016.jpg",
+    "start": 48.903,
+    "end": 52.594
+  },
+  {
+    "image": "shots_017.jpg",
+    "start": 52.594,
+    "end": 56.285
+  },
+  {
+    "image": "shots_018.jpg",
+    "start": 56.285,
+    "end": 59.976
+  },
+  {
+    "image": "shots_019.jpg",
+    "start": 59.976,
+    "end": 64.128
+  },
+  {
+    "image": "shots_020.jpg",
+    "start": 64.128,
+    "end": 68.28
+  }
+]
