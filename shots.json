@@ -2,101 +2,351 @@
   {
     "image": "shots_001.jpg",
     "start": 0.0,
-    "end": 4.152
+    "end": 2.641
   },
   {
     "image": "shots_002.jpg",
-    "start": 4.152,
-    "end": 7.843
+    "start": 2.641,
+    "end": 5.722
   },
   {
     "image": "shots_003.jpg",
-    "start": 7.843,
-    "end": 10.611
+    "start": 5.722,
+    "end": 9.683
   },
   {
     "image": "shots_004.jpg",
-    "start": 10.611,
-    "end": 12.918
+    "start": 9.683,
+    "end": 12.324
   },
   {
     "image": "shots_005.jpg",
-    "start": 12.918,
-    "end": 17.993
+    "start": 12.324,
+    "end": 16.285
   },
   {
     "image": "shots_006.jpg",
-    "start": 17.993,
-    "end": 21.684
+    "start": 16.285,
+    "end": 19.806
   },
   {
     "image": "shots_007.jpg",
-    "start": 21.684,
-    "end": 23.068
+    "start": 19.806,
+    "end": 24.207
   },
   {
     "image": "shots_008.jpg",
-    "start": 23.068,
-    "end": 28.142
+    "start": 24.207,
+    "end": 27.288
   },
   {
     "image": "shots_009.jpg",
-    "start": 28.142,
-    "end": 30.449
+    "start": 27.288,
+    "end": 31.25
   },
   {
     "image": "shots_010.jpg",
-    "start": 30.449,
-    "end": 33.679
+    "start": 31.25,
+    "end": 34.331
   },
   {
     "image": "shots_011.jpg",
-    "start": 33.679,
-    "end": 35.524
+    "start": 34.331,
+    "end": 37.852
   },
   {
     "image": "shots_012.jpg",
-    "start": 35.524,
-    "end": 39.215
+    "start": 37.852,
+    "end": 41.813
   },
   {
     "image": "shots_013.jpg",
-    "start": 39.215,
-    "end": 43.367
+    "start": 41.813,
+    "end": 45.334
   },
   {
     "image": "shots_014.jpg",
-    "start": 43.367,
-    "end": 45.212
+    "start": 45.334,
+    "end": 49.735
   },
   {
     "image": "shots_015.jpg",
-    "start": 45.212,
-    "end": 48.903
+    "start": 49.735,
+    "end": 53.697
   },
   {
     "image": "shots_016.jpg",
-    "start": 48.903,
-    "end": 52.594
+    "start": 53.697,
+    "end": 58.098
   },
   {
     "image": "shots_017.jpg",
-    "start": 52.594,
-    "end": 56.285
+    "start": 58.098,
+    "end": 61.619
   },
   {
     "image": "shots_018.jpg",
-    "start": 56.285,
-    "end": 59.976
+    "start": 61.619,
+    "end": 66.02
   },
   {
     "image": "shots_019.jpg",
-    "start": 59.976,
-    "end": 64.128
+    "start": 66.02,
+    "end": 69.101
   },
   {
     "image": "shots_020.jpg",
-    "start": 64.128,
-    "end": 68.28
+    "start": 69.101,
+    "end": 73.063
+  },
+  {
+    "image": "shots_021.jpg",
+    "start": 73.063,
+    "end": 76.584
+  },
+  {
+    "image": "shots_022.jpg",
+    "start": 76.584,
+    "end": 80.545
+  },
+  {
+    "image": "shots_023.jpg",
+    "start": 80.545,
+    "end": 83.186
+  },
+  {
+    "image": "shots_024.jpg",
+    "start": 83.186,
+    "end": 86.267
+  },
+  {
+    "image": "shots_025.jpg",
+    "start": 86.267,
+    "end": 90.668
+  },
+  {
+    "image": "shots_026.jpg",
+    "start": 90.668,
+    "end": 94.189
+  },
+  {
+    "image": "shots_027.jpg",
+    "start": 94.189,
+    "end": 98.15
+  },
+  {
+    "image": "shots_028.jpg",
+    "start": 98.15,
+    "end": 101.231
+  },
+  {
+    "image": "shots_029.jpg",
+    "start": 101.231,
+    "end": 104.752
+  },
+  {
+    "image": "shots_030.jpg",
+    "start": 104.752,
+    "end": 108.714
+  },
+  {
+    "image": "shots_031.jpg",
+    "start": 108.714,
+    "end": 112.675
+  },
+  {
+    "image": "shots_032.jpg",
+    "start": 112.675,
+    "end": 116.196
+  },
+  {
+    "image": "shots_033.jpg",
+    "start": 116.196,
+    "end": 119.717
+  },
+  {
+    "image": "shots_034.jpg",
+    "start": 119.717,
+    "end": 123.678
+  },
+  {
+    "image": "shots_035.jpg",
+    "start": 123.678,
+    "end": 126.759
+  },
+  {
+    "image": "shots_036.jpg",
+    "start": 126.759,
+    "end": 130.72
+  },
+  {
+    "image": "shots_037.jpg",
+    "start": 130.72,
+    "end": 134.241
+  },
+  {
+    "image": "shots_038.jpg",
+    "start": 134.241,
+    "end": 137.322
+  },
+  {
+    "image": "shots_039.jpg",
+    "start": 137.322,
+    "end": 141.724
+  },
+  {
+    "image": "shots_040.jpg",
+    "start": 141.724,
+    "end": 145.245
+  },
+  {
+    "image": "shots_041.jpg",
+    "start": 145.245,
+    "end": 148.766
+  },
+  {
+    "image": "shots_042.jpg",
+    "start": 148.766,
+    "end": 152.727
+  },
+  {
+    "image": "shots_043.jpg",
+    "start": 152.727,
+    "end": 156.688
+  },
+  {
+    "image": "shots_044.jpg",
+    "start": 156.688,
+    "end": 161.09
+  },
+  {
+    "image": "shots_045.jpg",
+    "start": 161.09,
+    "end": 163.731
+  },
+  {
+    "image": "shots_046.jpg",
+    "start": 163.731,
+    "end": 166.811
+  },
+  {
+    "image": "shots_047.jpg",
+    "start": 166.811,
+    "end": 170.773
+  },
+  {
+    "image": "shots_048.jpg",
+    "start": 170.773,
+    "end": 174.294
+  },
+  {
+    "image": "shots_049.jpg",
+    "start": 174.294,
+    "end": 178.255
+  },
+  {
+    "image": "shots_050.jpg",
+    "start": 178.255,
+    "end": 182.216
+  },
+  {
+    "image": "shots_051.jpg",
+    "start": 182.216,
+    "end": 185.297
+  },
+  {
+    "image": "shots_052.jpg",
+    "start": 185.297,
+    "end": 189.699
+  },
+  {
+    "image": "shots_053.jpg",
+    "start": 189.699,
+    "end": 193.66
+  },
+  {
+    "image": "shots_054.jpg",
+    "start": 193.66,
+    "end": 197.621
+  },
+  {
+    "image": "shots_055.jpg",
+    "start": 197.621,
+    "end": 201.582
+  },
+  {
+    "image": "shots_056.jpg",
+    "start": 201.582,
+    "end": 205.543
+  },
+  {
+    "image": "shots_057.jpg",
+    "start": 205.543,
+    "end": 209.945
+  },
+  {
+    "image": "shots_058.jpg",
+    "start": 209.945,
+    "end": 213.906
+  },
+  {
+    "image": "shots_059.jpg",
+    "start": 213.906,
+    "end": 217.867
+  },
+  {
+    "image": "shots_060.jpg",
+    "start": 217.867,
+    "end": 221.828
+  },
+  {
+    "image": "shots_061.jpg",
+    "start": 221.828,
+    "end": 225.79
+  },
+  {
+    "image": "shots_062.jpg",
+    "start": 225.79,
+    "end": 228.871
+  },
+  {
+    "image": "shots_063.jpg",
+    "start": 228.871,
+    "end": 232.832
+  },
+  {
+    "image": "shots_064.jpg",
+    "start": 232.832,
+    "end": 237.233
+  },
+  {
+    "image": "shots_065.jpg",
+    "start": 237.233,
+    "end": 241.194
+  },
+  {
+    "image": "shots_066.jpg",
+    "start": 241.194,
+    "end": 245.596
+  },
+  {
+    "image": "shots_067.jpg",
+    "start": 245.596,
+    "end": 249.557
+  },
+  {
+    "image": "shots_068.jpg",
+    "start": 249.557,
+    "end": 252.198
+  },
+  {
+    "image": "shots_069.jpg",
+    "start": 252.198,
+    "end": 255.279
+  },
+  {
+    "image": "shots_070.jpg",
+    "start": 255.279,
+    "end": 259.24
   }
 ]

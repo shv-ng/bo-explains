@@ -7,8 +7,7 @@ AI writes project.json once. This script does everything else.
 Usage:
   python make_short.py project.json                 # run all steps (no image gen)
   python make_short.py project.json --agy           # run all, auto-generate missing images
-  python make_short.py project.json --steps voice,shots,assemble,captions
-  python make_short.py project.json --skip captions
+  python make_short.py project.json --steps voice,shots,assemble
 
 ── Shot timing ─────────────────────────────────────────────────────────────
 
@@ -78,6 +77,11 @@ Usage:
     "style": "deep male narrator, calm, slow, unhurried, contemplative",
     "model": "gemini-3.8-flash-tts"
   },
+  "video": {
+    "width": 1080,
+    "height": 1920,
+    "aspect_ratio": "9:16"
+  },
   "image_model": "gemini-3.8-flash-low",
   "fps": 30,
   "loop_last_shot": true,
@@ -92,6 +96,10 @@ Usage:
       `phrase` field, which is what the narration is built from anyway.
     - shot phrases MUST concatenate exactly (word-by-word) to narration.
       `step_shots` validates this and refuses to run if they diverge.
+    - video.width / video.height / video.aspect_ratio drive the image
+      prompt, ASS subtitle canvas, and final ffmpeg encode. All three are
+      optional; defaults are 1080×1920 / 9:16 (vertical short). If
+      aspect_ratio is missing it is derived from width:height via gcd.
 
 Requirements:
   GEMINI_API_KEY env var (for voice)
@@ -110,9 +118,17 @@ import tempfile
 import time
 import urllib.error
 import urllib.request
+from math import gcd
+
+
+# ── defaults ──────────────────────────────────────────────────────────────────
+# ← NEW: default video geometry. Overridable per-project via project.json["video"].
+DEFAULT_VIDEO = {"width": 1080, "height": 1920, "aspect_ratio": "9:16"}
 
 
 # ── locked style prefix ──────────────────────────────────────────────────────
+# ← CHANGED: the trailing aspect-ratio line is now a {aspect_line} placeholder,
+#   filled in by build_prompt() from project.json["video"].
 STYLE_PREFIX = (
     "Generate exactly 1 image using your generate_image tool. "
     "2D flat cartoon vector illustration in the style of a stick-figure history "
@@ -136,19 +152,31 @@ STYLE_PREFIX = (
     "detailed face, no realistic anatomy, no 3D, no Pixar, no Disney, no anime, "
     "no bald characters (except old men), no identical faces, no identical bodies, "
     "no solid helmet-like hair, no vintage paper, no crosshatching, no text. "
-    "Aspect ratio: 9:16 (vertical, 1080×1920). No text, no watermark, no signature. "
+    "{aspect_line}"
 )
 
-ASS_HEADER = """[Script Info]
+
+# ← CHANGED: ASS header is now built by a function so PlayResX/Y match the video.
+def ass_header(w, h):
+    """Return the [Script Info] + [V4+ Styles] block sized for w×h."""
+    # Scale font/margins roughly with height so captions stay proportional.
+    # Base tuning was for 1920-tall; multiply by h/1920.
+    scale = h / 1920.0
+    fontsize = max(24, int(round(68 * scale)))
+    margin_lr = max(20, int(round(70 * scale)))
+    margin_v = max(40, int(round(300 * scale)))
+    outline = max(2, int(round(5 * scale)))
+    shadow = max(1, int(round(2 * scale)))
+    return f"""[Script Info]
 ScriptType: v4.00+
-PlayResX: 1080
-PlayResY: 1920
+PlayResX: {w}
+PlayResY: {h}
 WrapStyle: 2
 ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,DejaVu Sans,68,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,1,0,0,0,100,100,0,0,1,5,2,2,70,70,300,1
+Style: Cap,DejaVu Sans,{fontsize},&H00FFFFFF,&H000000FF,&H00000000,&H64000000,1,0,0,0,100,100,0,0,1,{outline},{shadow},2,{margin_lr},{margin_lr},{margin_v},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -202,12 +230,54 @@ def ass_time(t):
     return f"{h}:{m:02d}:{s:05.2f}"
 
 
-def build_prompt(style, scene):
+# ← NEW: resolve and validate the video block from project.json once.
+def get_video(proj):
+    """
+    Merge project.json["video"] over DEFAULT_VIDEO, then:
+      - coerce width/height to int
+      - derive aspect_ratio from width:height via gcd if missing
+      - warn (and trust width/height) if aspect_ratio disagrees with them
+    """
+    v = dict(DEFAULT_VIDEO)
+    v.update(proj.get("video", {}))
+    v["width"] = int(v["width"])
+    v["height"] = int(v["height"])
+
+    g = gcd(v["width"], v["height"])
+    derived = f"{v['width'] // g}:{v['height'] // g}"
+
+    if not v.get("aspect_ratio"):
+        v["aspect_ratio"] = derived
+    elif str(v["aspect_ratio"]) != derived:
+        print(
+            f"[video] WARN aspect_ratio {v['aspect_ratio']} disagrees with "
+            f"{v['width']}x{v['height']} (derived {derived}); using {derived}"
+        )
+        v["aspect_ratio"] = derived
+
+    if v["width"] % 2 or v["height"] % 2:
+        raise SystemExit(
+            f"video.width/height must be even for yuv420p: "
+            f"{v['width']}x{v['height']}"
+        )
+    return v
+
+
+# ← CHANGED: build_prompt now takes the resolved video block.
+def build_prompt(style, scene, video):
+    w, h = video["width"], video["height"]
+    asp = video["aspect_ratio"]
+    orient = "vertical" if h > w else ("horizontal" if w > h else "square")
+    aspect_line = (
+        f"Aspect ratio: {asp} ({orient}, {w}×{h}). "
+        "No text, no watermark, no signature. "
+    )
     return STYLE_PREFIX.format(
         clothing=style["clothing"],
         background=style["background"],
         sky=style["sky"],
         scene=scene,
+        aspect_line=aspect_line,
     )
 
 
@@ -257,6 +327,7 @@ def step_prompts(proj, base_dir):
 
     shots = proj["shots"]
     style = proj["style"]
+    video = get_video(proj)  # ← NEW
     total = len(shots)
     todo = missing_shots(proj, base_dir)
 
@@ -273,12 +344,14 @@ def step_prompts(proj, base_dir):
         f"# {proj.get('name', 'short')} — image prompts\n",
         f"Missing shots: {len(todo)} of {total}\n",
         "Save images as: raw/<N>.jpg (N = shot number)\n",
-        "Aspect ratio: 9:16 (vertical)\n",
+        # ← CHANGED: reflect project.json video block instead of hardcoded 9:16.
+        f"Aspect ratio: {video['aspect_ratio']} "
+        f"({video['width']}×{video['height']})\n",
         "---\n",
     ]
 
     for i, shot in todo:
-        prompt = build_prompt(style, shot["scene"])
+        prompt = build_prompt(style, shot["scene"], video)  # ← CHANGED
         lines.append(f"## Shot #{i}\n")
         lines.append(f"{prompt}\n\n")
         lines.append("---\n")
@@ -313,6 +386,7 @@ def step_images(proj, base_dir, use_agy=False):
     os.makedirs(raw_dir, exist_ok=True)
 
     style = proj["style"]
+    video = get_video(proj)  # ← NEW
     image_model = proj.get("image_model", "gemini-3.8-flash-low")
 
     for i, shot in todo:
@@ -325,7 +399,7 @@ def step_images(proj, base_dir, use_agy=False):
             continue
 
         dest = os.path.join(raw_dir, f"{i}.jpg")
-        prompt = build_prompt(style, shot["scene"])
+        prompt = build_prompt(style, shot["scene"], video)  # ← CHANGED
         print(f"[images] shot {i:02d} — generating via imagine-agy …")
 
         max_retries = 3
@@ -337,7 +411,11 @@ def step_images(proj, base_dir, use_agy=False):
                     "--model",
                     image_model,
                     "--print",
-                    f"{prompt}. Save it as {dest} in 9:16 vertical aspect ratio",
+                    # ← CHANGED: aspect_ratio + explicit dimensions from project.json
+                    f"{prompt}. Save it as {dest} in "
+                    f"{video['aspect_ratio']} "
+                    f"({'vertical' if video['height'] > video['width'] else 'horizontal'}) "
+                    f"aspect ratio ({video['width']}×{video['height']})",
                 ],
                 capture_output=True,
                 text=True,
@@ -365,8 +443,6 @@ def step_images(proj, base_dir, use_agy=False):
 
 
 # ── step: watermark removal (raw → img, always) ─────────────────────────────
-
-
 def step_watermark(proj, base_dir):
     shots = proj["shots"]
     img_dir = os.path.join(base_dir, "img")
@@ -558,8 +634,6 @@ def step_voice(proj, base_dir):
 
 
 # ── step: shots.json ──────────────────────────────────────────────────────────
-
-
 def step_shots(proj, base_dir):
     voice_path = os.path.join(base_dir, "voice", "voice.wav")
     shots_json_path = os.path.join(base_dir, "shots.json")
@@ -639,7 +713,14 @@ def step_assemble(proj, base_dir):
 
     shots = json.load(open(shots_json_path))
     fps = str(proj.get("fps", 30))
-    w, h = "1080", "1920"
+
+    # ← CHANGED: width/height come from project.json["video"] (fixes the
+    #   previous h/w swap that encoded a landscape frame around 9:16 art).
+    video = get_video(proj)
+    w, h = str(video["width"]), str(video["height"])
+    print(
+        f"[assemble] target {w}×{h} ({video['aspect_ratio']}) @ {fps} fps"
+    )
 
     missing = [
         s["image"]
@@ -747,103 +828,6 @@ def step_assemble(proj, base_dir):
     print(f"[assemble] wrote {out_path}")
 
 
-# ── step: captions ────────────────────────────────────────────────────────────
-
-
-def step_captions(proj, base_dir):
-    import captacity
-
-    final_path = os.path.join(base_dir, "out", "final.mp4")
-    ass_path = os.path.join(base_dir, "out", "captions.ass")
-    captioned_path = os.path.join(base_dir, "out", "final_captioned.mp4")
-
-    captacity.add_captions(
-        final_path,
-        captioned_path,
-        highlight_current_word=True,
-        font_size=130,
-        font_color="yellow",
-        stroke_width=3,
-    )
-
-    shots_json_path = os.path.join(base_dir, "shots.json")
-
-    if os.path.exists(captioned_path) and os.path.getsize(captioned_path) > 10000:
-        print("[captions] skipping — final_captioned.mp4 already exists")
-        return
-
-    if not os.path.exists(final_path):
-        raise SystemExit("out/final.mp4 not found — run the 'assemble' step first")
-    if not os.path.exists(shots_json_path):
-        raise SystemExit("shots.json not found — run the 'shots' step first")
-
-    timed_shots = json.load(open(shots_json_path))
-    shots = proj["shots"]
-    if len(timed_shots) != len(shots):
-        raise SystemExit(
-            f"shots.json has {len(timed_shots)} entries but project.json has {len(shots)}"
-        )
-
-    group_size = max(1, int(proj.get("caption_group_size", 3)))
-    events = []
-
-    for timed, shot in zip(timed_shots, shots):
-        tokens = display_tokens(shot["phrase"])
-        if not tokens:
-            continue
-        start = float(timed["start"])
-        end = float(timed["end"])
-        span = max(0.1, end - start)
-
-        # chunk tokens into groups of `group_size`
-        chunks = [tokens[k : k + group_size] for k in range(0, len(tokens), group_size)]
-        n = len(chunks)
-        for k, chunk in enumerate(chunks):
-            s = start + span * (k / n)
-            e = start + span * ((k + 1) / n)
-            text = " ".join(chunk)
-            text = re.sub(r"\s+", " ", text).strip().upper()
-            text = text.replace("{", "(").replace("}", ")")
-            events.append([s, e, text])
-
-    # guarantee non-overlapping, contiguous events
-    for k in range(len(events) - 1):
-        events[k][1] = min(events[k][1], events[k + 1][0])
-
-    with open(ass_path, "w") as f:
-        f.write(ASS_HEADER)
-        for s, e, text in events:
-            if e > s:
-                f.write(f"Dialogue: 0,{ass_time(s)},{ass_time(e)},Cap,,0,0,0,,{text}\n")
-
-    print(f"[captions] wrote {ass_path} ({len(events)} groups)")
-
-    run(
-        [
-            "ffmpeg",
-            "-y",
-            "-i",
-            final_path,
-            "-vf",
-            f"ass={ass_path}",
-            "-c:v",
-            "libx264",
-            "-preset",
-            "fast",
-            "-crf",
-            "18",
-            "-pix_fmt",
-            "yuv420p",
-            "-c:a",
-            "copy",
-            "-movflags",
-            "+faststart",
-            captioned_path,
-        ]
-    )
-    print(f"[captions] wrote {captioned_path}")
-
-
 # ── main ──────────────────────────────────────────────────────────────────────
 
 STEPS_ALL = [
@@ -853,9 +837,8 @@ STEPS_ALL = [
     "watermark",
     "shots",
     "assemble",
-    "captions",
 ]
-STEPS_DEFAULT = ["voice", "images", "watermark", "shots", "assemble", "captions"]
+STEPS_DEFAULT = ["voice", "images", "watermark", "shots", "assemble"]
 
 
 def main():
@@ -895,11 +878,18 @@ def main():
         if s not in STEPS_ALL:
             raise SystemExit(f"Unknown step: {s!r}. Valid: {', '.join(STEPS_ALL)}")
 
+    # ← NEW: resolve/validate video once up-front so bad config fails fast.
+    video = get_video(proj)
+
     print(
         f"[pipeline] {proj.get('name', 'unnamed')}  |  "
         f"image gen: {'--agy (auto)' if args.agy else 'manual / raw only'}"
     )
     print(f"[pipeline] steps: {' → '.join(steps)}")
+    print(
+        f"[pipeline] video: {video['width']}×{video['height']} "
+        f"({video['aspect_ratio']})"
+    )
     print(f"[pipeline] dir: {base_dir}")
     print()
 
@@ -917,13 +907,8 @@ def main():
             step_shots(proj, base_dir)
         elif step == "assemble":
             step_assemble(proj, base_dir)
-        elif step == "captions":
-            step_captions(proj, base_dir)
 
     print("\n[pipeline] done ✓")
-    out = os.path.join(base_dir, "out", "final_captioned.mp4")
-    if os.path.exists(out):
-        print(f"[pipeline] deliverable: {out}")
 
 
 if __name__ == "__main__":

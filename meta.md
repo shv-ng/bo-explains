@@ -1,18 +1,14 @@
+Google's "Don't Be Evil" Vanished in 2018 #Shorts
+
+Google quietly deleted "Don't be evil" from its code of conduct in 2018 — here's what that silent edit actually meant.
+
 Sourced facts used:
 
-Left-hand driving was made mandatory in Britain in 1835 under the Highway Act, and countries that were part of the British Empire followed suit — including India, Australasia, and former British colonies in Africa. 
-calendar-uk
-Napoleon spread right-side driving as he conquered Europe — only countries that resisted Napoleon’s armies kept their left-side rules. 
-Substack
-When the British colonised India, they brought their road rules with them. India kept those rules even after independence in 1947. America, on the other hand, moved to right-hand traffic after breaking away from British rule. 
-india
-The design of Henry Ford’s Model T, with the driver’s seat on the left side, sealed right-side driving for America and influenced several countries to switch in the 1920s. 
-autoslash
-Left-hand traffic was introduced by the UK in British India — covering what is now India, Pakistan, Myanmar, and Bangladesh. 
-wikiwand
+- "Don't be evil" was suggested by Google engineer Paul Buchheit around 2000, partly as "a jab" at competitors who were "exploiting the users"
+- It was included in Google's 2004 IPO prospectus as a founding principle: "a company that does good things for the world even if we forgo some short term gains"
+- Sometime between April 21 and May 4, 2018, Google quietly removed the phrase from the opening and closing of its code of conduct, relegating it to a single sentence at the bottom
+- Before removal, the code said "Don't be evil" was "much more than" just serving users — it was about "following the law, acting honorably, and treating co-workers with courtesy and respect"
+- After the change, the motto was reduced to: "And remember… don't be evil, and if you see something that you think isn't right – speak up!"
 
-Suggested title: Why India Drives on the Left — It’s a Colonial Rule #Shorts
-
-Description: Every time you drive on the left in India, you’re following a rule the British made in 1835. #Shorts #IndianHistory #ColonialIndia #DrivingFacts #DidYouKnow
-
-Tags: indian history, colonial india, driving on left india, why india drives left, british empire roads, napoleon driving right, highway act 1835, left hand traffic india, why countries drive different sides, india colonial legacy, road rules history, bo explains
+google, dont be evil, google motto, corporate ethics, tech history, silicon valley, google code of conduct, google 2018, big tech criticism, bo explains, google history, corporate promises
+ 
